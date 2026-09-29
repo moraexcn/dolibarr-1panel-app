@@ -1,0 +1,80 @@
+services:
+  dolibarr:
+    image: dolibarr/dolibarr:23.0.3
+    container_name: "${CONTAINER_NAME}"
+    restart: always
+    networks:
+      - 1panel-network
+    ports:
+      - "${PANEL_APP_PORT_HTTP}:80"
+    environment:
+      DOLI_INSTALL_AUTO: 1
+      DOLI_INIT_DEMO: "${DOLI_INIT_DEMO}"
+      DOLI_PROD: 1
+      DOLI_INSTANCE_UNIQUE_ID: "${DOLI_INSTANCE_UNIQUE_ID}"
+      DOLI_DB_TYPE: mysqli
+      DOLI_DB_HOST: "${PANEL_DB_HOST}"
+      DOLI_DB_HOST_PORT: "${PANEL_DB_PORT}"
+      DOLI_DB_NAME: "${PANEL_DB_NAME}"
+      DOLI_DB_USER: "${PANEL_DB_USER}"
+      DOLI_DB_PASSWORD: "${PANEL_DB_USER_PASSWORD}"
+      DOLI_URL_ROOT: "${DOLI_URL_ROOT}"
+      DOLI_ADMIN_LOGIN: "${DOLI_ADMIN_LOGIN}"
+      DOLI_ADMIN_PASSWORD: "${DOLI_ADMIN_PASSWORD}"
+      DOLI_CRON_KEY: "${DOLI_CRON_KEY}"
+      DOLI_COMPANY_NAME: "${DOLI_COMPANY_NAME}"
+      DOLI_COMPANY_COUNTRYCODE: "${DOLI_COMPANY_COUNTRYCODE}"
+      WWW_USER_ID: 1000
+      WWW_GROUP_ID: 1000
+      PHP_INI_DATE_TIMEZONE: "${PHP_INI_DATE_TIMEZONE}"
+      PHP_INI_MEMORY_LIMIT: "${PHP_INI_MEMORY_LIMIT}"
+      PHP_INI_UPLOAD_MAX_FILESIZE: "${PHP_INI_UPLOAD_MAX_FILESIZE}"
+      PHP_INI_POST_MAX_SIZE: "${PHP_INI_POST_MAX_SIZE}"
+    volumes:
+      - ./data/documents:/var/www/documents
+      - ./data/custom:/var/www/html/custom
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "curl -fsS http://localhost/ >/dev/null || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 300s
+    labels:
+      createdBy: Apps
+  cron:
+    image: dolibarr/dolibarr:23.0.3
+    container_name: "${CONTAINER_NAME}-cron"
+    restart: always
+    networks:
+      - 1panel-network
+    environment:
+      DOLI_INSTALL_AUTO: 1
+      DOLI_PROD: 1
+      DOLI_INSTANCE_UNIQUE_ID: "${DOLI_INSTANCE_UNIQUE_ID}"
+      DOLI_DB_TYPE: mysqli
+      DOLI_DB_HOST: "${PANEL_DB_HOST}"
+      DOLI_DB_HOST_PORT: "${PANEL_DB_PORT}"
+      DOLI_DB_NAME: "${PANEL_DB_NAME}"
+      DOLI_DB_USER: "${PANEL_DB_USER}"
+      DOLI_DB_PASSWORD: "${PANEL_DB_USER_PASSWORD}"
+      DOLI_URL_ROOT: "${DOLI_URL_ROOT}"
+      DOLI_CRON: 1
+      DOLI_CRON_KEY: "${DOLI_CRON_KEY}"
+      DOLI_CRON_USER: "${DOLI_ADMIN_LOGIN}"
+      WWW_USER_ID: 1000
+      WWW_GROUP_ID: 1000
+      PHP_INI_DATE_TIMEZONE: "${PHP_INI_DATE_TIMEZONE}"
+      PHP_INI_MEMORY_LIMIT: "${PHP_INI_MEMORY_LIMIT}"
+    volumes:
+      - ./data/documents:/var/www/documents
+      - ./data/custom:/var/www/html/custom
+    depends_on:
+      dolibarr:
+        condition: service_healthy
+    labels:
+      createdBy: Apps
+networks:
+  1panel-network:
+    external: true

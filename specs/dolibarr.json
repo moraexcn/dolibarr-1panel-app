@@ -1,0 +1,533 @@
+{
+  "key": "dolibarr",
+  "name": "Dolibarr",
+  "title": "Dolibarr ERP & CRM",
+  "version": "23.0.4",
+  "description": {
+    "en": "Open-source ERP and CRM web suite for managing business activities.",
+    "zh": "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。",
+    "zh-Hant": "用於管理企業業務活動的開源 ERP 與 CRM Web 套件。"
+  },
+  "readme": {
+    "zh": {
+      "introduction": "是一套面向企业、基金会和自由职业者的开源 ERP 与 CRM Web 应用，可集中管理客户、供应商、销售、财务和运营活动。",
+      "features": [
+        {
+          "title": "客户与供应商管理",
+          "description": "统一管理客户、供应商、联系人及相关业务信息。"
+        },
+        {
+          "title": "销售与财务流程",
+          "description": "支持报价、订单、发票、付款和会计等业务流程。"
+        },
+        {
+          "title": "运营管理",
+          "description": "覆盖库存、日程、人力资源、费用报销、文档和制造等场景。"
+        },
+        {
+          "title": "模块化扩展",
+          "description": "可按组织需要启用功能模块并安装外部模块。"
+        }
+      ]
+    },
+    "en": {
+      "introduction": "is an open-source ERP and CRM web application for businesses, foundations, and freelancers, bringing customer, supplier, sales, finance, and operations management together.",
+      "features": [
+        {
+          "title": "Customer and Supplier Management",
+          "description": "Manage customers, suppliers, contacts, and related business information."
+        },
+        {
+          "title": "Sales and Finance Workflows",
+          "description": "Handle proposals, orders, invoices, payments, and accounting workflows."
+        },
+        {
+          "title": "Operations Management",
+          "description": "Cover stock, agenda, HR, expense reports, documents, and manufacturing."
+        },
+        {
+          "title": "Modular Extensions",
+          "description": "Enable built-in features and install external modules as needed."
+        }
+      ]
+    }
+  },
+  "type": "website",
+  "tags": [
+    "CRM"
+  ],
+  "website": "https://www.dolibarr.org/",
+  "github": "https://github.com/Dolibarr/dolibarr",
+  "document": "https://wiki.dolibarr.org/index.php/Documentation",
+  "logo": "specs/dolibarr-logo.png",
+  "source_evidence": [
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/README.md",
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-compose.yml",
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/Dockerfile.template",
+    "https://hub.docker.com/r/dolibarr/dolibarr/tags?name=23.0.4",
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-run.sh",
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-init.php",
+    "https://github.com/Dolibarr/dolibarr-docker/blob/main/examples/with-cron/docker-compose.yml",
+    "https://github.com/Dolibarr/dolibarr/releases/tag/23.0.4",
+    "https://github.com/1Panel-dev/1Panel/blob/dev-v2/agent/app/service/app_upgrade.go",
+    "https://hub.docker.com/r/dolibarr/dolibarr/tags",
+    "https://github.com/Dolibarr/dolibarr-foundation/tree/develop/logo-cliparts",
+    "https://github.com/1Panel-dev/appstore/blob/dev/apps/wordpress/7.1.0/data.yml",
+    "https://github.com/1Panel-dev/appstore/blob/dev/apps/wordpress/7.1.0/docker-compose.yml",
+    "https://github.com/1Panel-dev/appstore/blob/dev/apps/gitlab/19.3.0-ce.0/data.yml"
+  ],
+  "notes": [
+    "The database is selected from 1Panel-managed MySQL or MariaDB services through the official PANEL_DB_* form variables.",
+    "After generation, remove any extra top-level PANEL_DB_HOST text field; PANEL_DB_HOST is already declared by the official nested service selector.",
+    "After generation, keep DOLI_INIT_DEMO default and select values quoted as strings; 1Panel AppFormValue.value does not accept YAML numbers.",
+    "Specialized form labels use English fallback outside Chinese when no official translation was available.",
+    "The generated package still requires lifecycle testing on a 1Panel host.",
+    "Cross-major-version updates are disabled pending a tested 1Panel and Dolibarr database migration procedure.",
+    "Keep the 23.0.3 version directory so 1Panel can offer 23.0.4 as an upgrade target; the 23.0.4/scripts/upgrade.sh removes install.lock after 1Panel backup and before the new container starts.",
+    "The package generator does not create upgrade.sh; preserve the reviewed 23.0.4/scripts/upgrade.sh when regenerating the version directory."
+  ],
+  "crossVersionUpdate": false,
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "services": [
+    {
+      "name": "dolibarr",
+      "image": "dolibarr/dolibarr:23.0.4",
+      "primary": true,
+      "ports": [
+        {
+          "host_env": "PANEL_APP_PORT_HTTP",
+          "host_default": 8080,
+          "container": 80,
+          "protocol": "tcp",
+          "label": "Web UI Port"
+        }
+      ],
+      "volumes": [
+        "./data/documents:/var/www/documents",
+        "./data/custom:/var/www/html/custom"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "curl -fsS http://localhost/ >/dev/null || exit 1"
+        ],
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "300s"
+      },
+      "environment": {
+        "DOLI_INSTALL_AUTO": "1",
+        "DOLI_INIT_DEMO": "${DOLI_INIT_DEMO}",
+        "DOLI_PROD": "1",
+        "DOLI_INSTANCE_UNIQUE_ID": "${DOLI_INSTANCE_UNIQUE_ID}",
+        "DOLI_DB_TYPE": "mysqli",
+        "DOLI_DB_HOST": "${PANEL_DB_HOST}",
+        "DOLI_DB_HOST_PORT": "${PANEL_DB_PORT}",
+        "DOLI_DB_NAME": "${PANEL_DB_NAME}",
+        "DOLI_DB_USER": "${PANEL_DB_USER}",
+        "DOLI_DB_PASSWORD": "${PANEL_DB_USER_PASSWORD}",
+        "DOLI_URL_ROOT": "${DOLI_URL_ROOT}",
+        "DOLI_ADMIN_LOGIN": "${DOLI_ADMIN_LOGIN}",
+        "DOLI_ADMIN_PASSWORD": "${DOLI_ADMIN_PASSWORD}",
+        "DOLI_CRON_KEY": "${DOLI_CRON_KEY}",
+        "DOLI_COMPANY_NAME": "${DOLI_COMPANY_NAME}",
+        "DOLI_COMPANY_COUNTRYCODE": "${DOLI_COMPANY_COUNTRYCODE}",
+        "WWW_USER_ID": "1000",
+        "WWW_GROUP_ID": "1000",
+        "PHP_INI_DATE_TIMEZONE": "${PHP_INI_DATE_TIMEZONE}",
+        "PHP_INI_MEMORY_LIMIT": "${PHP_INI_MEMORY_LIMIT}",
+        "PHP_INI_UPLOAD_MAX_FILESIZE": "${PHP_INI_UPLOAD_MAX_FILESIZE}",
+        "PHP_INI_POST_MAX_SIZE": "${PHP_INI_POST_MAX_SIZE}"
+      }
+    },
+    {
+      "name": "cron",
+      "image": "dolibarr/dolibarr:23.0.4",
+      "depends_on": {
+        "dolibarr": {
+          "condition": "service_healthy"
+        }
+      },
+      "volumes": [
+        "./data/documents:/var/www/documents",
+        "./data/custom:/var/www/html/custom"
+      ],
+      "environment": {
+        "DOLI_INSTALL_AUTO": "1",
+        "DOLI_PROD": "1",
+        "DOLI_INSTANCE_UNIQUE_ID": "${DOLI_INSTANCE_UNIQUE_ID}",
+        "DOLI_DB_TYPE": "mysqli",
+        "DOLI_DB_HOST": "${PANEL_DB_HOST}",
+        "DOLI_DB_HOST_PORT": "${PANEL_DB_PORT}",
+        "DOLI_DB_NAME": "${PANEL_DB_NAME}",
+        "DOLI_DB_USER": "${PANEL_DB_USER}",
+        "DOLI_DB_PASSWORD": "${PANEL_DB_USER_PASSWORD}",
+        "DOLI_URL_ROOT": "${DOLI_URL_ROOT}",
+        "DOLI_CRON": "1",
+        "DOLI_CRON_KEY": "${DOLI_CRON_KEY}",
+        "DOLI_CRON_USER": "${DOLI_ADMIN_LOGIN}",
+        "WWW_USER_ID": "1000",
+        "WWW_GROUP_ID": "1000",
+        "PHP_INI_DATE_TIMEZONE": "${PHP_INI_DATE_TIMEZONE}",
+        "PHP_INI_MEMORY_LIMIT": "${PHP_INI_MEMORY_LIMIT}"
+      }
+    }
+  ],
+  "form_fields": [
+    {
+      "child": {
+        "default": "",
+        "envKey": "PANEL_DB_HOST",
+        "required": true,
+        "type": "service"
+      },
+      "default": "mysql",
+      "envKey": "PANEL_DB_TYPE",
+      "labelEn": "Database Service",
+      "labelZh": "数据库服务",
+      "label": {
+        "en": "Database Service",
+        "es-es": "Servicio de base de datos",
+        "ja": "データベースサービス",
+        "ms": "Perkhidmatan Pangkalan Data",
+        "pt-br": "Serviço de Banco de Dados",
+        "ru": "Сервис баз данных",
+        "ko": "데이터베이스 서비스",
+        "zh-Hant": "資料庫服務",
+        "zh": "数据库服务",
+        "tr": "Veritabanı Hizmeti"
+      },
+      "required": true,
+      "type": "apps",
+      "values": [
+        {
+          "label": "MySQL",
+          "value": "mysql"
+        },
+        {
+          "label": "MariaDB",
+          "value": "mariadb"
+        }
+      ],
+      "params": [
+        { "key": "mysql", "envKey": "format", "value": "utf8mb4" },
+        { "key": "mysql", "envKey": "collation", "value": "utf8mb4_unicode_ci" },
+        { "key": "mariadb", "envKey": "format", "value": "utf8mb4" },
+        { "key": "mariadb", "envKey": "collation", "value": "utf8mb4_unicode_ci" }
+      ]
+    },
+    {
+      "default": "dolibarr",
+      "envKey": "PANEL_DB_NAME",
+      "labelEn": "Database",
+      "labelZh": "数据库",
+      "label": {
+        "en": "Database",
+        "es-es": "Base de datos",
+        "ja": "データベース",
+        "ms": "Pangkalan Data",
+        "pt-br": "Banco de Dados",
+        "ru": "База данных",
+        "ko": "데이터베이스",
+        "zh-Hant": "資料庫",
+        "zh": "数据库",
+        "tr": "Veritabanı"
+      },
+      "random": true,
+      "required": true,
+      "rule": "paramCommon",
+      "type": "text"
+    },
+    {
+      "default": "dolibarr",
+      "envKey": "PANEL_DB_USER",
+      "labelEn": "Database User",
+      "labelZh": "数据库用户",
+      "label": {
+        "en": "Database User",
+        "es-es": "Usuario de la base de datos",
+        "ja": "データベースユーザー",
+        "ms": "Pengguna Pangkalan Data",
+        "pt-br": "Usuário do Banco de Dados",
+        "ru": "Пользователь базы данных",
+        "ko": "데이터베이스 사용자",
+        "zh-Hant": "資料庫用戶",
+        "zh": "数据库用户",
+        "tr": "Veritabanı Kullanıcısı"
+      },
+      "random": true,
+      "required": true,
+      "rule": "paramCommon",
+      "type": "text"
+    },
+    {
+      "default": "dolibarr",
+      "envKey": "PANEL_DB_USER_PASSWORD",
+      "labelEn": "Database Password",
+      "labelZh": "数据库密码",
+      "label": {
+        "en": "Database Password",
+        "es-es": "Contraseña de la base de datos",
+        "ja": "データベースのパスワード",
+        "ms": "Kata Laluan Pangkalan Data",
+        "pt-br": "Senha do Banco de Dados",
+        "ru": "Пароль базы данных",
+        "ko": "데이터베이스 비밀번호",
+        "zh-Hant": "資料庫密碼",
+        "zh": "数据库密码",
+        "tr": "Veritabanı Parolası"
+      },
+      "random": true,
+      "required": true,
+      "type": "password"
+    },
+    {
+      "default": "admin",
+      "envKey": "DOLI_ADMIN_LOGIN",
+      "labelEn": "Administrator Username",
+      "labelZh": "管理员用户名",
+      "description": {
+        "en": "Used only to create the initial administrator account.",
+        "es-es": "Used only to create the initial administrator account.",
+        "ja": "Used only to create the initial administrator account.",
+        "ms": "Used only to create the initial administrator account.",
+        "pt-br": "Used only to create the initial administrator account.",
+        "ru": "Used only to create the initial administrator account.",
+        "ko": "Used only to create the initial administrator account.",
+        "zh-Hant": "僅用於首次初始化時建立管理員帳號。",
+        "zh": "仅用于首次初始化时创建管理员账号。",
+        "tr": "Used only to create the initial administrator account."
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "",
+      "envKey": "DOLI_ADMIN_PASSWORD",
+      "labelEn": "Administrator Password",
+      "labelZh": "管理员密码",
+      "description": {
+        "en": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "es-es": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "ja": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "ms": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "pt-br": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "ru": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "ko": "Initial administrator password; changing this field later does not change the Dolibarr account password.",
+        "zh-Hant": "首次初始化使用的管理員密碼；後續修改此欄位不會更改 Dolibarr 帳號密碼。",
+        "zh": "首次初始化使用的管理员密码；后续修改此字段不会更改 Dolibarr 账号密码。",
+        "tr": "Initial administrator password; changing this field later does not change the Dolibarr account password."
+      },
+      "random": true,
+      "required": true,
+      "type": "password"
+    },
+    {
+      "default": "",
+      "envKey": "DOLI_CRON_KEY",
+      "labelEn": "Cron Security Key",
+      "labelZh": "定时任务安全密钥",
+      "label": {
+        "en": "Cron Security Key",
+        "zh-Hant": "排程任務安全密鑰",
+        "zh": "定时任务安全密钥"
+      },
+      "description": {
+        "en": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "es-es": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "ja": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "ms": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "pt-br": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "ru": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "ko": "Random key shared by the web and cron services. Keep it secret and unchanged after installation.",
+        "zh-Hant": "Web 與 cron 服務共用的隨機密鑰；安裝後請保密並保持不變。",
+        "zh": "Web 与 cron 服务共用的随机密钥；安装后请保密并保持不变。",
+        "tr": "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+      },
+      "random": true,
+      "required": true,
+      "type": "password"
+    },
+    {
+      "default": "",
+      "envKey": "DOLI_INSTANCE_UNIQUE_ID",
+      "labelEn": "Instance Secret",
+      "labelZh": "实例密钥",
+      "label": {
+        "en": "Instance Secret",
+        "zh-Hant": "實例密鑰",
+        "zh": "实例密钥"
+      },
+      "random": true,
+      "required": true,
+      "type": "password"
+    },
+    {
+      "default": "My Company",
+      "envKey": "DOLI_COMPANY_NAME",
+      "labelEn": "Company Name",
+      "labelZh": "公司名称",
+      "label": {
+        "en": "Company Name",
+        "zh-Hant": "公司名稱",
+        "zh": "公司名称"
+      },
+      "description": {
+        "en": "Applied only during the first Dolibarr initialization.",
+        "es-es": "Applied only during the first Dolibarr initialization.",
+        "ja": "Applied only during the first Dolibarr initialization.",
+        "ms": "Applied only during the first Dolibarr initialization.",
+        "pt-br": "Applied only during the first Dolibarr initialization.",
+        "ru": "Applied only during the first Dolibarr initialization.",
+        "ko": "Applied only during the first Dolibarr initialization.",
+        "zh-Hant": "僅在 Dolibarr 首次初始化時套用。",
+        "zh": "仅在 Dolibarr 首次初始化时应用。",
+        "tr": "Applied only during the first Dolibarr initialization."
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "CN",
+      "envKey": "DOLI_COMPANY_COUNTRYCODE",
+      "labelEn": "Company Country Code",
+      "labelZh": "公司国家代码",
+      "label": {
+        "en": "Company Country Code",
+        "zh-Hant": "公司國家代碼",
+        "zh": "公司国家代码"
+      },
+      "description": {
+        "en": "Two-letter country code, applied only during the first initialization.",
+        "es-es": "Two-letter country code, applied only during the first initialization.",
+        "ja": "Two-letter country code, applied only during the first initialization.",
+        "ms": "Two-letter country code, applied only during the first initialization.",
+        "pt-br": "Two-letter country code, applied only during the first initialization.",
+        "ru": "Two-letter country code, applied only during the first initialization.",
+        "ko": "Two-letter country code, applied only during the first initialization.",
+        "zh-Hant": "兩位國家代碼，僅在首次初始化時套用。",
+        "zh": "两位国家代码，仅在首次初始化时应用。",
+        "tr": "Two-letter country code, applied only during the first initialization."
+      },
+      "required": true,
+      "rule": "paramCommon",
+      "type": "text"
+    },
+    {
+      "default": "",
+      "envKey": "DOLI_URL_ROOT",
+      "labelEn": "Base URL",
+      "labelZh": "Base URL",
+      "description": {
+        "en": "Enter the full public URL used to access Dolibarr, including scheme and port when needed (for example, https://erp.example.com or http://server.example.com:8080). Set it before first installation; changing this form later does not update Dolibarr's saved configuration.",
+        "zh-Hant": "填寫存取 Dolibarr 的完整公開網址，必要時包含協定與連接埠（例如 https://erp.example.com 或 http://server.example.com:8080）。請在首次安裝前設定；日後修改此表單不會更新 Dolibarr 已儲存的設定。",
+        "zh": "填写访问 Dolibarr 的完整公开网址，必要时包含协议和端口（例如 https://erp.example.com 或 http://server.example.com:8080）。请在首次安装前设置；日后修改此表单不会更新 Dolibarr 已保存的配置。"
+      },
+      "label": {
+        "en": "Base URL",
+        "es-es": "Base URL",
+        "ja": "Base URL",
+        "ms": "Base URL",
+        "pt-br": "Base URL",
+        "ru": "Base URL",
+        "ko": "Base URL",
+        "zh-Hant": "Base URL",
+        "zh": "Base URL",
+        "tr": "Base URL"
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "Asia/Shanghai",
+      "envKey": "PHP_INI_DATE_TIMEZONE",
+      "labelEn": "PHP Timezone",
+      "labelZh": "PHP 时区",
+      "label": {
+        "en": "PHP Timezone",
+        "zh-Hant": "PHP 時區",
+        "zh": "PHP 时区"
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "256M",
+      "envKey": "PHP_INI_MEMORY_LIMIT",
+      "labelEn": "PHP Memory Limit",
+      "labelZh": "PHP 内存限制",
+      "label": {
+        "en": "PHP Memory Limit",
+        "zh-Hant": "PHP 記憶體限制",
+        "zh": "PHP 内存限制"
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "20M",
+      "envKey": "PHP_INI_UPLOAD_MAX_FILESIZE",
+      "labelEn": "PHP Upload Limit",
+      "labelZh": "PHP 上传限制",
+      "label": {
+        "en": "PHP Upload Limit",
+        "zh-Hant": "PHP 上傳限制",
+        "zh": "PHP 上传限制"
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "22M",
+      "envKey": "PHP_INI_POST_MAX_SIZE",
+      "labelEn": "PHP POST Limit",
+      "labelZh": "PHP POST 限制",
+      "label": {
+        "en": "PHP POST Limit",
+        "zh-Hant": "PHP POST 限制",
+        "zh": "PHP POST 限制"
+      },
+      "required": true,
+      "type": "text"
+    },
+    {
+      "default": "0",
+      "envKey": "DOLI_INIT_DEMO",
+      "labelEn": "Demo Data",
+      "labelZh": "演示数据",
+      "label": {
+        "en": "Demo Data",
+        "zh-Hant": "演示資料",
+        "zh": "演示数据"
+      },
+      "description": {
+        "en": "Controls whether demo data is loaded during the first initialization only.",
+        "es-es": "Controls whether demo data is loaded during the first initialization only.",
+        "ja": "Controls whether demo data is loaded during the first initialization only.",
+        "ms": "Controls whether demo data is loaded during the first initialization only.",
+        "pt-br": "Controls whether demo data is loaded during the first initialization only.",
+        "ru": "Controls whether demo data is loaded during the first initialization only.",
+        "ko": "Controls whether demo data is loaded during the first initialization only.",
+        "zh-Hant": "僅控制首次初始化時是否載入演示資料。",
+        "zh": "仅控制首次初始化时是否加载演示数据。",
+        "tr": "Controls whether demo data is loaded during the first initialization only."
+      },
+      "required": true,
+      "type": "select",
+      "values": [
+        {
+          "label": "Disabled / 关闭",
+          "value": "0"
+        },
+        {
+          "label": "Enabled / 开启",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

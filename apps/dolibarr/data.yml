@@ -1,0 +1,32 @@
+name: Dolibarr
+tags:
+  - CRM
+title: "Dolibarr ERP & CRM"
+description: "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。"
+additionalProperties:
+  key: dolibarr
+  name: Dolibarr
+  tags:
+    - CRM
+  shortDescZh: "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。"
+  shortDescEn: "Open-source ERP and CRM web suite for managing business activities."
+  description:
+    en: "Open-source ERP and CRM web suite for managing business activities."
+    es-es: "Open-source ERP and CRM web suite for managing business activities."
+    ja: "Open-source ERP and CRM web suite for managing business activities."
+    ms: "Open-source ERP and CRM web suite for managing business activities."
+    pt-br: "Open-source ERP and CRM web suite for managing business activities."
+    ru: "Open-source ERP and CRM web suite for managing business activities."
+    ko: "Open-source ERP and CRM web suite for managing business activities."
+    zh-Hant: "用於管理企業業務活動的開源 ERP 與 CRM Web 套件。"
+    zh: "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。"
+    tr: "Open-source ERP and CRM web suite for managing business activities."
+  type: website
+  crossVersionUpdate: false
+  limit: 0
+  architectures:
+    - amd64
+    - arm64
+  website: https://www.dolibarr.org/
+  github: https://github.com/Dolibarr/dolibarr
+  document: https://wiki.dolibarr.org/index.php/Documentation
