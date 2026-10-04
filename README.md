@@ -6,6 +6,14 @@
 
 需要安装指定版本时，请到 [Releases](https://github.com/moraexcn/dolibarr-1panel-app/releases) 选择对应的发布版本，下载其中的 `dolibarr.zip` 附件。仓库中的 [`apps/dolibarr`](apps/dolibarr) 目录一般保持最新的应用包内容，不能代替历史版本的 Release 附件。
 
+## 构建说明与注意事项
+
+本项目由维护者借助 OpenAI Codex 辅助编写和检查应用配置、脚本及文档，并由维护者审核和发布。Codex 辅助构建不代表 1Panel、Dolibarr 或 OpenAI 对本应用包提供官方认证或支持。
+
+- 安装或升级前，核对 Release 附件及其 SHA-256 摘要，并检查所选版本的镜像来源、配置和更新说明。
+- 静态检查不能覆盖所有 1Panel 环境、数据库迁移和自定义模块。生产环境升级前，应先备份数据库、文档和自定义模块，并在隔离环境验证安装、升级及恢复流程。
+- 管理员密码、数据库密码和安全密钥应在 1Panel 中设置并妥善保管，不要提交到本仓库或公开问题报告中。
+
 ## 安装前准备
 
 - 在 Linux 服务器上安装并登录 1Panel，确认 Docker 服务可用。

@@ -6,6 +6,14 @@ This project builds a Dolibarr app package for 1Panel using [1Panel](https://git
 
 To install a specific version, choose the corresponding entry in [Releases](https://github.com/moraexcn/dolibarr-1panel-app/releases) and download its `dolibarr.zip` asset. The repository's [`apps/dolibarr`](apps/dolibarr) directory generally tracks the latest package content and is not a substitute for historical Release assets.
 
+## Build notes and precautions
+
+The maintainer uses OpenAI Codex to help write and check the app configuration, scripts, and documentation, then reviews and publishes the package. Codex assistance does not imply official certification or support from 1Panel, Dolibarr, or OpenAI.
+
+- Before installing or upgrading, verify the Release asset and its SHA-256 digest, and review the selected version's image source, configuration, and upgrade notes.
+- Static checks cannot cover every 1Panel environment, database migration, or custom module. Before upgrading production, back up the database, documents, and custom modules, and test installation, upgrade, and restoration in an isolated environment.
+- Set and protect administrator passwords, database passwords, and security keys in 1Panel. Do not commit them to this repository or include them in public issue reports.
+
 ## Before installation
 
 - Install and sign in to 1Panel on a Linux server, and confirm Docker is running.
