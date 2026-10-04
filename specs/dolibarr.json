@@ -2,7 +2,7 @@
   "key": "dolibarr",
   "name": "Dolibarr",
   "title": "Dolibarr ERP & CRM",
-  "version": "23.0.4",
+  "version": "24.0.1",
   "description": {
     "en": "Open-source ERP and CRM web suite for managing business activities.",
     "zh": "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。",
@@ -64,11 +64,11 @@
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/README.md",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-compose.yml",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/Dockerfile.template",
-    "https://hub.docker.com/r/dolibarr/dolibarr/tags?name=23.0.4",
+    "https://hub.docker.com/r/dolibarr/dolibarr/tags?name=24.0.1",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-run.sh",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-init.php",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/examples/with-cron/docker-compose.yml",
-    "https://github.com/Dolibarr/dolibarr/releases/tag/23.0.4",
+    "https://github.com/Dolibarr/dolibarr/releases/tag/24.0.1",
     "https://github.com/1Panel-dev/1Panel/blob/dev-v2/agent/app/service/app_upgrade.go",
     "https://hub.docker.com/r/dolibarr/dolibarr/tags",
     "https://github.com/Dolibarr/dolibarr-foundation/tree/develop/logo-cliparts",
@@ -81,12 +81,12 @@
     "After generation, remove any extra top-level PANEL_DB_HOST text field; PANEL_DB_HOST is already declared by the official nested service selector.",
     "After generation, keep DOLI_INIT_DEMO default and select values quoted as strings; 1Panel AppFormValue.value does not accept YAML numbers.",
     "Specialized form labels use English fallback outside Chinese when no official translation was available.",
-    "The generated package still requires lifecycle testing on a 1Panel host.",
-    "Cross-major-version updates are disabled pending a tested 1Panel and Dolibarr database migration procedure.",
-    "Keep the 23.0.3 version directory so 1Panel can offer 23.0.4 as an upgrade target; the 23.0.4/scripts/upgrade.sh removes install.lock after 1Panel backup and before the new container starts.",
-    "The package generator does not create upgrade.sh; preserve the reviewed 23.0.4/scripts/upgrade.sh when regenerating the version directory."
+    "The generated package still requires lifecycle testing on each target 1Panel host and validation of custom modules.",
+    "Cross-major-version selection is enabled after a user-reported successful 23.x to 24.0.1 test; administrators must still back up and verify their own database migration.",
+    "Keep older version directories; the target version scripts/upgrade.sh removes install.lock after 1Panel backup and before the new container starts.",
+    "The package generator does not create upgrade.sh; preserve the reviewed script when regenerating the version directory."
   ],
-  "crossVersionUpdate": false,
+  "crossVersionUpdate": true,
   "architectures": [
     "amd64",
     "arm64"
@@ -94,7 +94,7 @@
   "services": [
     {
       "name": "dolibarr",
-      "image": "dolibarr/dolibarr:23.0.4",
+      "image": "dolibarr/dolibarr:24.0.1",
       "primary": true,
       "ports": [
         {
@@ -112,7 +112,7 @@
       "healthcheck": {
         "test": [
           "CMD-SHELL",
-          "curl -fsS http://localhost/ >/dev/null || exit 1"
+          "test -f /var/www/documents/install.lock && curl -fsS http://localhost/ >/dev/null || exit 1"
         ],
         "interval": "30s",
         "timeout": "10s",
@@ -146,7 +146,7 @@
     },
     {
       "name": "cron",
-      "image": "dolibarr/dolibarr:23.0.4",
+      "image": "dolibarr/dolibarr:24.0.1",
       "depends_on": {
         "dolibarr": {
           "condition": "service_healthy"
@@ -214,10 +214,26 @@
         }
       ],
       "params": [
-        { "key": "mysql", "envKey": "format", "value": "utf8mb4" },
-        { "key": "mysql", "envKey": "collation", "value": "utf8mb4_unicode_ci" },
-        { "key": "mariadb", "envKey": "format", "value": "utf8mb4" },
-        { "key": "mariadb", "envKey": "collation", "value": "utf8mb4_unicode_ci" }
+        {
+          "key": "mysql",
+          "envKey": "format",
+          "value": "utf8mb4"
+        },
+        {
+          "key": "mysql",
+          "envKey": "collation",
+          "value": "utf8mb4_unicode_ci"
+        },
+        {
+          "key": "mariadb",
+          "envKey": "format",
+          "value": "utf8mb4"
+        },
+        {
+          "key": "mariadb",
+          "envKey": "collation",
+          "value": "utf8mb4_unicode_ci"
+        }
       ]
     },
     {

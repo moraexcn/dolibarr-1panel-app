@@ -32,7 +32,7 @@ See the [official 1Panel Appstore Skills guide](https://1panel.cn/docs/v2/dev_ma
 
 ## Upgrading
 
-The package disables automatic cross-major updates. New versions must be packaged and tested separately against 1Panel's app format and Dolibarr's database migration requirements. Before upgrading an existing instance, read the [upgrade, backup, and verification guide](apps/dolibarr/UPGRADE.md). Back up and restore the database, documents, and custom modules together. Upgrade installed instances through 1Panel's upgrade flow; replacing the local app directory or image alone does not upgrade an instance. The detailed upgrade guide is currently in Chinese.
+The package lets an administrator select an included cross-major target through 1Panel's upgrade flow. Before upgrading an existing instance, read the [upgrade, backup, and verification guide](apps/dolibarr/UPGRADE.md), and verify database migration and custom module compatibility in an isolated environment. Back up and restore the database, documents, and custom modules together. Replacing the local app directory or image alone does not upgrade an installed instance. The detailed upgrade guide is currently in Chinese.
 
 ## Scheduled sync of the latest Release
 

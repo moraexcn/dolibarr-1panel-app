@@ -22,7 +22,7 @@ additionalProperties:
     zh: "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。"
     tr: "Open-source ERP and CRM web suite for managing business activities."
   type: website
-  crossVersionUpdate: false
+  crossVersionUpdate: true
   limit: 0
   architectures:
     - amd64
