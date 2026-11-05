@@ -2,7 +2,7 @@
   "key": "dolibarr",
   "name": "Dolibarr",
   "title": "Dolibarr ERP & CRM",
-  "version": "24.0.1",
+  "version": "24.0.2",
   "description": {
     "en": "Open-source ERP and CRM web suite for managing business activities.",
     "zh": "用于管理企业业务活动的开源 ERP 与 CRM Web 套件。",
@@ -64,11 +64,11 @@
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/README.md",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-compose.yml",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/Dockerfile.template",
-    "https://hub.docker.com/r/dolibarr/dolibarr/tags?name=24.0.1",
+    "https://hub.docker.com/r/dolibarr/dolibarr/tags?name=24.0.2",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-run.sh",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/docker-init.php",
     "https://github.com/Dolibarr/dolibarr-docker/blob/main/examples/with-cron/docker-compose.yml",
-    "https://github.com/Dolibarr/dolibarr/releases/tag/24.0.1",
+    "https://github.com/Dolibarr/dolibarr/releases/tag/24.0.2",
     "https://github.com/1Panel-dev/1Panel/blob/dev-v2/agent/app/service/app_upgrade.go",
     "https://hub.docker.com/r/dolibarr/dolibarr/tags",
     "https://github.com/Dolibarr/dolibarr-foundation/tree/develop/logo-cliparts",
@@ -84,7 +84,8 @@
     "The generated package still requires lifecycle testing on each target 1Panel host and validation of custom modules.",
     "Cross-major-version selection is enabled after a user-reported successful 23.x to 24.0.1 test; administrators must still back up and verify their own database migration.",
     "Keep older version directories; the target version scripts/upgrade.sh removes install.lock after 1Panel backup and before the new container starts.",
-    "The package generator does not create upgrade.sh; preserve the reviewed script when regenerating the version directory."
+    "The package generator does not create upgrade.sh; preserve the reviewed script when regenerating the version directory.",
+    "24.0.2 is a test candidate: wait for user-run 1Panel upgrade and restoration checks before updating main or publishing a formal Release."
   ],
   "crossVersionUpdate": true,
   "architectures": [
@@ -94,7 +95,7 @@
   "services": [
     {
       "name": "dolibarr",
-      "image": "dolibarr/dolibarr:24.0.1",
+      "image": "dolibarr/dolibarr:24.0.2",
       "primary": true,
       "ports": [
         {
@@ -146,7 +147,7 @@
     },
     {
       "name": "cron",
-      "image": "dolibarr/dolibarr:24.0.1",
+      "image": "dolibarr/dolibarr:24.0.2",
       "depends_on": {
         "dolibarr": {
           "condition": "service_healthy"
