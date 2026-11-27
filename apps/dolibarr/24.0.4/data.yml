@@ -1,0 +1,399 @@
+additionalProperties:
+  formFields:
+    - child:
+        default: ""
+        envKey: PANEL_DB_HOST
+        required: true
+        type: service
+      default: mysql
+      envKey: PANEL_DB_TYPE
+      labelEn: "Database Service"
+      labelZh: "数据库服务"
+      label:
+        en: "Database Service"
+        es-es: "Servicio de base de datos"
+        ja: "データベースサービス"
+        ms: "Perkhidmatan Pangkalan Data"
+        pt-br: "Serviço de Banco de Dados"
+        ru: "Сервис баз данных"
+        ko: "데이터베이스 서비스"
+        zh-Hant: "資料庫服務"
+        zh: "数据库服务"
+        tr: "Veritabanı Hizmeti"
+      required: true
+      type: apps
+      values:
+        - label: MySQL
+          value: mysql
+        - label: MariaDB
+          value: mariadb
+      params:
+        - key: mysql
+          envKey: format
+          value: utf8mb4
+        - key: mysql
+          envKey: collation
+          value: utf8mb4_unicode_ci
+        - key: mariadb
+          envKey: format
+          value: utf8mb4
+        - key: mariadb
+          envKey: collation
+          value: utf8mb4_unicode_ci
+    - default: dolibarr
+      envKey: PANEL_DB_NAME
+      labelEn: Database
+      labelZh: "数据库"
+      label:
+        en: Database
+        es-es: "Base de datos"
+        ja: "データベース"
+        ms: "Pangkalan Data"
+        pt-br: "Banco de Dados"
+        ru: "База данных"
+        ko: "데이터베이스"
+        zh-Hant: "資料庫"
+        zh: "数据库"
+        tr: "Veritabanı"
+      random: true
+      required: true
+      rule: paramCommon
+      type: text
+    - default: dolibarr
+      envKey: PANEL_DB_USER
+      labelEn: "Database User"
+      labelZh: "数据库用户"
+      label:
+        en: "Database User"
+        es-es: "Usuario de la base de datos"
+        ja: "データベースユーザー"
+        ms: "Pengguna Pangkalan Data"
+        pt-br: "Usuário do Banco de Dados"
+        ru: "Пользователь базы данных"
+        ko: "데이터베이스 사용자"
+        zh-Hant: "資料庫用戶"
+        zh: "数据库用户"
+        tr: "Veritabanı Kullanıcısı"
+      random: true
+      required: true
+      rule: paramCommon
+      type: text
+    - default: dolibarr
+      envKey: PANEL_DB_USER_PASSWORD
+      labelEn: "Database Password"
+      labelZh: "数据库密码"
+      label:
+        en: "Database Password"
+        es-es: "Contraseña de la base de datos"
+        ja: "データベースのパスワード"
+        ms: "Kata Laluan Pangkalan Data"
+        pt-br: "Senha do Banco de Dados"
+        ru: "Пароль базы данных"
+        ko: "데이터베이스 비밀번호"
+        zh-Hant: "資料庫密碼"
+        zh: "数据库密码"
+        tr: "Veritabanı Parolası"
+      random: true
+      required: true
+      type: password
+    - default: admin
+      envKey: DOLI_ADMIN_LOGIN
+      labelEn: "Administrator Username"
+      labelZh: "管理员用户名"
+      description:
+        en: "Used only to create the initial administrator account."
+        es-es: "Used only to create the initial administrator account."
+        ja: "Used only to create the initial administrator account."
+        ms: "Used only to create the initial administrator account."
+        pt-br: "Used only to create the initial administrator account."
+        ru: "Used only to create the initial administrator account."
+        ko: "Used only to create the initial administrator account."
+        zh-Hant: "僅用於首次初始化時建立管理員帳號。"
+        zh: "仅用于首次初始化时创建管理员账号。"
+        tr: "Used only to create the initial administrator account."
+      required: true
+      type: text
+      label:
+        en: "Administrator Username"
+        es-es: "Administrator Username"
+        ja: "Administrator Username"
+        ms: "Administrator Username"
+        pt-br: "Administrator Username"
+        ru: "Administrator Username"
+        ko: "Administrator Username"
+        zh-Hant: "管理员用户名"
+        zh: "管理员用户名"
+        tr: "Administrator Username"
+    - default: ""
+      envKey: DOLI_ADMIN_PASSWORD
+      labelEn: "Administrator Password"
+      labelZh: "管理员密码"
+      description:
+        en: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        es-es: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        ja: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        ms: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        pt-br: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        ru: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        ko: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+        zh-Hant: "首次初始化使用的管理員密碼；後續修改此欄位不會更改 Dolibarr 帳號密碼。"
+        zh: "首次初始化使用的管理员密码；后续修改此字段不会更改 Dolibarr 账号密码。"
+        tr: "Initial administrator password; changing this field later does not change the Dolibarr account password."
+      random: true
+      required: true
+      type: password
+      label:
+        en: "Administrator Password"
+        es-es: "Administrator Password"
+        ja: "Administrator Password"
+        ms: "Administrator Password"
+        pt-br: "Administrator Password"
+        ru: "Administrator Password"
+        ko: "Administrator Password"
+        zh-Hant: "管理员密码"
+        zh: "管理员密码"
+        tr: "Administrator Password"
+    - default: ""
+      envKey: DOLI_CRON_KEY
+      labelEn: "Cron Security Key"
+      labelZh: "定时任务安全密钥"
+      label:
+        en: "Cron Security Key"
+        es-es: "Cron Security Key"
+        ja: "Cron Security Key"
+        ms: "Cron Security Key"
+        pt-br: "Cron Security Key"
+        ru: "Cron Security Key"
+        ko: "Cron Security Key"
+        zh-Hant: "排程任務安全密鑰"
+        zh: "定时任务安全密钥"
+        tr: "Cron Security Key"
+      description:
+        en: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        es-es: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        ja: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        ms: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        pt-br: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        ru: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        ko: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+        zh-Hant: "Web 與 cron 服務共用的隨機密鑰；安裝後請保密並保持不變。"
+        zh: "Web 与 cron 服务共用的随机密钥；安装后请保密并保持不变。"
+        tr: "Random key shared by the web and cron services. Keep it secret and unchanged after installation."
+      random: true
+      required: true
+      type: password
+    - default: ""
+      envKey: DOLI_INSTANCE_UNIQUE_ID
+      labelEn: "Instance Secret"
+      labelZh: "实例密钥"
+      label:
+        en: "Instance Secret"
+        es-es: "Instance Secret"
+        ja: "Instance Secret"
+        ms: "Instance Secret"
+        pt-br: "Instance Secret"
+        ru: "Instance Secret"
+        ko: "Instance Secret"
+        zh-Hant: "實例密鑰"
+        zh: "实例密钥"
+        tr: "Instance Secret"
+      random: true
+      required: true
+      type: password
+    - default: "My Company"
+      envKey: DOLI_COMPANY_NAME
+      labelEn: "Company Name"
+      labelZh: "公司名称"
+      label:
+        en: "Company Name"
+        es-es: "Company Name"
+        ja: "Company Name"
+        ms: "Company Name"
+        pt-br: "Company Name"
+        ru: "Company Name"
+        ko: "Company Name"
+        zh-Hant: "公司名稱"
+        zh: "公司名称"
+        tr: "Company Name"
+      description:
+        en: "Applied only during the first Dolibarr initialization."
+        es-es: "Applied only during the first Dolibarr initialization."
+        ja: "Applied only during the first Dolibarr initialization."
+        ms: "Applied only during the first Dolibarr initialization."
+        pt-br: "Applied only during the first Dolibarr initialization."
+        ru: "Applied only during the first Dolibarr initialization."
+        ko: "Applied only during the first Dolibarr initialization."
+        zh-Hant: "僅在 Dolibarr 首次初始化時套用。"
+        zh: "仅在 Dolibarr 首次初始化时应用。"
+        tr: "Applied only during the first Dolibarr initialization."
+      required: true
+      type: text
+    - default: CN
+      envKey: DOLI_COMPANY_COUNTRYCODE
+      labelEn: "Company Country Code"
+      labelZh: "公司国家代码"
+      label:
+        en: "Company Country Code"
+        es-es: "Company Country Code"
+        ja: "Company Country Code"
+        ms: "Company Country Code"
+        pt-br: "Company Country Code"
+        ru: "Company Country Code"
+        ko: "Company Country Code"
+        zh-Hant: "公司國家代碼"
+        zh: "公司国家代码"
+        tr: "Company Country Code"
+      description:
+        en: "Two-letter country code, applied only during the first initialization."
+        es-es: "Two-letter country code, applied only during the first initialization."
+        ja: "Two-letter country code, applied only during the first initialization."
+        ms: "Two-letter country code, applied only during the first initialization."
+        pt-br: "Two-letter country code, applied only during the first initialization."
+        ru: "Two-letter country code, applied only during the first initialization."
+        ko: "Two-letter country code, applied only during the first initialization."
+        zh-Hant: "兩位國家代碼，僅在首次初始化時套用。"
+        zh: "两位国家代码，仅在首次初始化时应用。"
+        tr: "Two-letter country code, applied only during the first initialization."
+      required: true
+      rule: paramCommon
+      type: text
+    - default: ""
+      envKey: DOLI_URL_ROOT
+      labelEn: "Base URL"
+      labelZh: "Base URL"
+      description:
+        en: "Enter the full public URL used to access Dolibarr, including scheme and port when needed (for example, https://erp.example.com or http://server.example.com:8080). Set it before first installation; changing this form later does not update Dolibarr's saved configuration."
+        zh-Hant: "填寫存取 Dolibarr 的完整公開網址，必要時包含協定與連接埠（例如 https://erp.example.com 或 http://server.example.com:8080）。請在首次安裝前設定；日後修改此表單不會更新 Dolibarr 已儲存的設定。"
+        zh: "填写访问 Dolibarr 的完整公开网址，必要时包含协议和端口（例如 https://erp.example.com 或 http://server.example.com:8080）。请在首次安装前设置；日后修改此表单不会更新 Dolibarr 已保存的配置。"
+      label:
+        en: "Base URL"
+        es-es: "Base URL"
+        ja: "Base URL"
+        ms: "Base URL"
+        pt-br: "Base URL"
+        ru: "Base URL"
+        ko: "Base URL"
+        zh-Hant: "Base URL"
+        zh: "Base URL"
+        tr: "Base URL"
+      required: true
+      type: text
+    - default: Asia/Shanghai
+      envKey: PHP_INI_DATE_TIMEZONE
+      labelEn: "PHP Timezone"
+      labelZh: "PHP 时区"
+      label:
+        en: "PHP Timezone"
+        es-es: "PHP Timezone"
+        ja: "PHP Timezone"
+        ms: "PHP Timezone"
+        pt-br: "PHP Timezone"
+        ru: "PHP Timezone"
+        ko: "PHP Timezone"
+        zh-Hant: "PHP 時區"
+        zh: "PHP 时区"
+        tr: "PHP Timezone"
+      required: true
+      type: text
+    - default: 256M
+      envKey: PHP_INI_MEMORY_LIMIT
+      labelEn: "PHP Memory Limit"
+      labelZh: "PHP 内存限制"
+      label:
+        en: "PHP Memory Limit"
+        es-es: "PHP Memory Limit"
+        ja: "PHP Memory Limit"
+        ms: "PHP Memory Limit"
+        pt-br: "PHP Memory Limit"
+        ru: "PHP Memory Limit"
+        ko: "PHP Memory Limit"
+        zh-Hant: "PHP 記憶體限制"
+        zh: "PHP 内存限制"
+        tr: "PHP Memory Limit"
+      required: true
+      type: text
+    - default: 20M
+      envKey: PHP_INI_UPLOAD_MAX_FILESIZE
+      labelEn: "PHP Upload Limit"
+      labelZh: "PHP 上传限制"
+      label:
+        en: "PHP Upload Limit"
+        es-es: "PHP Upload Limit"
+        ja: "PHP Upload Limit"
+        ms: "PHP Upload Limit"
+        pt-br: "PHP Upload Limit"
+        ru: "PHP Upload Limit"
+        ko: "PHP Upload Limit"
+        zh-Hant: "PHP 上傳限制"
+        zh: "PHP 上传限制"
+        tr: "PHP Upload Limit"
+      required: true
+      type: text
+    - default: 22M
+      envKey: PHP_INI_POST_MAX_SIZE
+      labelEn: "PHP POST Limit"
+      labelZh: "PHP POST 限制"
+      label:
+        en: "PHP POST Limit"
+        es-es: "PHP POST Limit"
+        ja: "PHP POST Limit"
+        ms: "PHP POST Limit"
+        pt-br: "PHP POST Limit"
+        ru: "PHP POST Limit"
+        ko: "PHP POST Limit"
+        zh-Hant: "PHP POST 限制"
+        zh: "PHP POST 限制"
+        tr: "PHP POST Limit"
+      required: true
+      type: text
+    - default: "0"
+      envKey: DOLI_INIT_DEMO
+      labelEn: "Demo Data"
+      labelZh: "演示数据"
+      label:
+        en: "Demo Data"
+        es-es: "Demo Data"
+        ja: "Demo Data"
+        ms: "Demo Data"
+        pt-br: "Demo Data"
+        ru: "Demo Data"
+        ko: "Demo Data"
+        zh-Hant: "演示資料"
+        zh: "演示数据"
+        tr: "Demo Data"
+      description:
+        en: "Controls whether demo data is loaded during the first initialization only."
+        es-es: "Controls whether demo data is loaded during the first initialization only."
+        ja: "Controls whether demo data is loaded during the first initialization only."
+        ms: "Controls whether demo data is loaded during the first initialization only."
+        pt-br: "Controls whether demo data is loaded during the first initialization only."
+        ru: "Controls whether demo data is loaded during the first initialization only."
+        ko: "Controls whether demo data is loaded during the first initialization only."
+        zh-Hant: "僅控制首次初始化時是否載入演示資料。"
+        zh: "仅控制首次初始化时是否加载演示数据。"
+        tr: "Controls whether demo data is loaded during the first initialization only."
+      required: true
+      type: select
+      values:
+        - label: "Disabled / 关闭"
+          value: "0"
+        - label: "Enabled / 开启"
+          value: "1"
+    - default: 8080
+      envKey: PANEL_APP_PORT_HTTP
+      labelEn: "Web UI Port"
+      labelZh: "Web UI 端口"
+      label:
+        en: "Web UI Port"
+        es-es: "Puerto web"
+        ja: "Web UIポート"
+        ms: "Port Web UI"
+        pt-br: "Porta da Web UI"
+        ru: "Порт веб-интерфейса"
+        ko: "웹 UI 포트"
+        zh-Hant: "Web UI 埠"
+        zh: "Web UI 端口"
+        tr: "Web UI Bağlantı Noktası"
+      required: true
+      rule: paramPort
+      type: number
